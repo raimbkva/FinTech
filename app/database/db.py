@@ -10,6 +10,7 @@ import os
 load_dotenv()
 
 DATABASE_URL = os.getenv("DATABASE_URL")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 engine = create_engine(DATABASE_URL)
 
@@ -20,3 +21,9 @@ SessionLocal = sessionmaker(
 )
 
 Base = declarative_base()
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
